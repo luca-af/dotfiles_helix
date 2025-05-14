@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  collections:
+    - community.general
+  vars:
+    config_helix: ~/.config/helix/
+  tasks:
+      - name: Install helix
+        become: true
+        package:
+          name: helix
+          state: present
+          
+      - name: Set helix as alternatives
+        become: true
+        alternatives:
+            name: "{{ item }}"
+            link: /usr/bin/{{ item }}
+            path: /usr/bin/hx
+        loop:
+          - vim
+          - vi
+      
+      - name: Set nvim as default editor
+        become: true
+        lineinfile: 
+            path: /etc/profile.d/editor.sh
+            line: "EDITOR=/usr/bin/hx"
+            state: present
+            create: true
+
+      - name: Create Directory
+        file:
+            path: "{{ config_helix }}"
+            state: directory
+
+      - name: Install config.toml
+        file:
+            path: "{{ config_helix }}/config.toml"
+            src: "{{ playbook_dir }}/config.toml"
+            state: link
