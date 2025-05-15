@@ -34,8 +34,11 @@
             path: "{{ config_helix }}"
             state: directory
 
-      - name: Install config.toml
+      - name: Install config.toml and languages.toml
         file:
-            path: "{{ config_helix }}/config.toml"
-            src: "{{ playbook_dir }}/config.toml"
+            path: "{{ config_helix }}/{{ item }}"
+            src: "{{ playbook_dir }}/{{ item }}"
             state: link
+        loop:
+          - config.toml
+          - languages.toml
