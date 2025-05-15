@@ -10,9 +10,11 @@
         package:
           name:
             - helix
+            # Golang Requirements
             - delve
             - gopls
             - golang-x-tools-goimports
+            # Python Requirements
             - python3-lsp-server
             - ruff
             - python3-jedi
