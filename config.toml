@@ -21,9 +21,21 @@ select = "underline"
 '<' = '>'
 
 [editor.statusline]
-left = ["mode", "spinner"]
-center = ["file-name"]
-right = ["file-type", "position", "diagnostics", "selections", "file-encoding", "file-line-ending"]
+left = [
+  "mode",
+  "spinner"
+  ]
+center = [
+  "file-name"
+  ]
+right = [
+  "file-type",
+  "position",
+  "diagnostics",
+  "selections",
+  "file-encoding",
+  "file-line-ending"
+  ]
 separator = "│"
 mode.normal = "NORMAL"
 mode.insert = "INSERT"
