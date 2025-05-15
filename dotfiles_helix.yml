@@ -5,11 +5,26 @@
   vars:
     config_helix: ~/.config/helix/
   tasks:
-      - name: Install helix
+      - name: Install helix and dependencies
         become: true
         package:
-          name: helix
+          name:
+            - helix
+            - delve
+            - gopls
+            - golang-x-tools-goimports
+            - python3-lsp-server
+            - ruff
+            - python3-jedi
+            - pylint
+            - python3-lsp-black
+            - python3-pyflakes
+            - python3-isort
+            - python3-rope
+            - python3-mypy
+            - python3-mypy_extensions
           state: present
+          
           
       - name: Set helix as alternatives
         become: true
@@ -42,3 +57,11 @@
         loop:
           - config.toml
           - languages.toml
+
+
+      - name: Install golang tools
+        shell:
+          cmd: go install {{ item }}
+        loop:
+          - github.com/nametake/golangci-lint-langserver@latest
+          - github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest

@@ -2,3 +2,19 @@
 name = "go"
 auto-format = true
 formatter = { command = "goimports" }
+
+[[language]]
+name = "python"
+auto-format = true
+language-servers = [ "pylsp", "ruff" ]
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+[language-server.pylsp.config.pylsp]
+plugins.black.enabled = true
+plugins.pylint.enabled = true
+plugins.pyflakes.enabled = false
+plugins.pyls_mypy.enabled = true
+plugins.pyls_mypy.live_mode = false
+plugins.isort.enabled = true
+plugins.rope_autoimport.enabled = true
