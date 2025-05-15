@@ -17,7 +17,6 @@
             - ruff
             - python3-jedi
             - pylint
-            - python3-lsp-black
             - python3-pyflakes
             - python3-isort
             - python3-rope
