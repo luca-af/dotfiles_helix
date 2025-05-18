@@ -2,12 +2,13 @@
 name = "go"
 auto-format = true
 formatter = { command = "goimports" }
-language-servers = ["gopls", "golangci-lint2-langserver"]
-
-[language-server.golangci-lint2-langserver]
+language-servers = ["gopls", "golangci-lint-langserver"]
+roots = ["go.mod"]
+comment-token="//"
+[language-server.golangci-lint-langserver]
 command = "golangci-lint-langserver"
 
-[language-server.golangci-lint2-langserver.config]
+[language-server.golangci-lint-langserver.config]
 command = [
   "golangci-lint",
   "run",
