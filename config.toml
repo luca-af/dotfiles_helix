@@ -6,11 +6,18 @@ line-number = "absolute"
 cursorline = true
 cursorcolumn = true
 color-modes = true
+bufferline = "multiple"
+idle-timeout = 0
 
 [editor.cursor-shape]
 normal = "block"
 insert = "bar"
 select = "underline"
+
+[keys.normal]
+# Cycle through buffers with Ctrl-Shift and left/right
+C-S-left = ":buffer-next"
+C-S-right = ":buffer-previous"
 
 [editor.auto-pairs]
 '(' = ')'
