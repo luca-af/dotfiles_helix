@@ -34,3 +34,15 @@ plugins.pyls_mypy.enabled = true
 plugins.pyls_mypy.live_mode = false
 plugins.isort.enabled = true
 plugins.rope_autoimport.enabled = true
+
+[[language]]
+name = "c"
+file-types = ["c", "h"]
+formatter = { command = 'clang-format' }
+auto-format = true
+
+[[language]]
+name = "cpp"
+file-types = ["cpp", "cc", "cxx", "hpp", "hcc", "hxx"]
+formatter = { command = 'clang-format' }
+auto-format = true
