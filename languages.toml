@@ -36,6 +36,15 @@ plugins.isort.enabled = true
 plugins.rope_autoimport.enabled = true
 
 [[language]]
+name = "rust"
+formatter = { command = "rustfmt" }
+
+[language-server.rust-analyzer.config.check]
+command = "clippy"
+[language-server.rust-analyzer.config.cargo]
+features = "all"
+
+[[language]]
 name = "c"
 file-types = ["c", "h"]
 formatter = { command = 'clang-format' }
