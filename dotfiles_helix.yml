@@ -1,71 +1,66 @@
 ---
-- hosts: localhost
-  collections:
-    - community.general
+- name: "Helix Setup"
+  hosts: localhost
   vars:
     config_helix: ~/.config/helix/
   tasks:
-      - name: Install helix and dependencies
-        become: true
-        package:
-          name:
-            - helix
-            # Golang Requirements
-            - delve
-            - gopls
-            - golang-x-tools-goimports
-            # Python Requirements
-            - python3-lsp-server
-            - ruff
-            - python3-jedi
-            - pylint
-            - python3-pyflakes
-            - python3-isort
-            - python3-rope
-            - python3-mypy
-            - python3-mypy_extensions
-            # Rust
-            - rust-analyzer
-            - lldb
-          state: present
-          
-          
-      - name: Set helix as alternatives
-        become: true
-        alternatives:
-            name: "{{ item }}"
-            link: /usr/bin/{{ item }}
-            path: /usr/bin/hx
-        loop:
-          - vim
-          - vi
-      
-      - name: Set nvim as default editor
-        become: true
-        lineinfile: 
-            path: /etc/profile.d/editor.sh
-            line: "EDITOR=/usr/bin/hx"
-            state: present
-            create: true
+    - name: Install helix and dependencies
+      become: true
+      ansible.builtin.dnf:
+        name:
+          - helix
+          # Golang Requirements
+          - delve
+          - gopls
+          - golang-x-tools-goimports
+          # Python Requirements
+          - python3-lsp-server
+          - ruff
+          - python3-jedi
+          - pylint
+          - python3-pyflakes
+          - python3-isort
+          - python3-rope
+          - python3-mypy
+          - python3-mypy_extensions
+          # Rust
+          - rust-analyzer
+          - clippy
+          - rustfmt
+          - lldb
+        state: present
+    - name: Set helix as alternatives
+      become: true
+      community.general.alternatives:
+        name: "{{ item }}"
+        link: /usr/bin/{{ item }}
+        path: /usr/bin/hx
+      loop:
+        - vim
+        - vi
+    - name: Set nvim as default editor
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/profile.d/editor.sh
+        line: "EDITOR=/usr/bin/hx"
+        state: present
+        create: true
+    - name: Create Directory
+      ansible.builtin.file:
+        path: "{{ config_helix }}"
+        state: directory
+    - name: Install config.toml and languages.toml
+      ansible.builtin.file:
+        path: "{{ config_helix }}/{{ item }}"
+        src: "{{ playbook_dir }}/{{ item }}"
+        state: link
+      loop:
+        - config.toml
+        - languages.toml
 
-      - name: Create Directory
-        file:
-            path: "{{ config_helix }}"
-            state: directory
-
-      - name: Install config.toml and languages.toml
-        file:
-            path: "{{ config_helix }}/{{ item }}"
-            src: "{{ playbook_dir }}/{{ item }}"
-            state: link
-        loop:
-          - config.toml
-          - languages.toml
-
-
-      - name: Install golang tools
-        shell:
-          cmd: go install {{ item }}
-        loop:
-          - github.com/nametake/golangci-lint-langserver@latest
-          - github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
+    - name: Install golang tools
+      ansible.builtin.shell:
+        cmd: go install {{ item }}
+      loop:
+        - github.com/nametake/golangci-lint-langserver@latest
+        - github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
