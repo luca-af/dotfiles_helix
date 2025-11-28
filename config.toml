@@ -8,6 +8,8 @@ cursorcolumn = true
 color-modes = true
 bufferline = "multiple"
 idle-timeout = 0
+completion-replace = true
+
 
 [editor.cursor-shape]
 normal = "block"
@@ -30,9 +32,10 @@ C-S-right = ":buffer-previous"
 [editor.statusline]
 left = [
   "mode",
-  "spinner"
+ "version-control"
   ]
 center = [
+  "spinner",
   "file-name"
   ]
 right = [
@@ -48,3 +51,7 @@ mode.normal = "NORMAL"
 mode.insert = "INSERT"
 mode.select = "SELECT"
 
+[editor.auto-save]
+focus-lost = true
+after-delay.enable = true
+after-delay.timeout = 300000
